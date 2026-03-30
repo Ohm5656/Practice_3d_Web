@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { LenisProvider } from "@/components/LenisProvider";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const inter = Inter({
