@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 interface UseCanvasSequenceProps {
   frameFolder: string;
   frameCount: number;
-  scrollProgress: number; // 0 to 1
+  scrollProgress: number;
   padLength?: number;
   prefix?: string;
   extension?: string;
@@ -20,86 +20,93 @@ export function useCanvasSequence({
   extension = ".jpg",
 }: UseCanvasSequenceProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
+  const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
+  const [imagesVersion, setImagesVersion] = useState(0);
   const [loadedCount, setLoadedCount] = useState(0);
 
-  // Preload Images progressively to not block the main thread
   useEffect(() => {
     let cancel = false;
-    const loadedImages: HTMLImageElement[] = new Array(frameCount).fill(null);
+    const timeoutIds: number[] = [];
+    const loadedImages: (HTMLImageElement | null)[] = new Array(frameCount).fill(null);
     let loaded = 0;
 
-    const loadFrame = (i: number) => {
+    imagesRef.current = loadedImages;
+
+    const loadFrame = (index: number) => {
       if (cancel) return;
-      
+
       const img = new Image();
-      const paddedIndex = i.toString().padStart(padLength, "0");
+      const paddedIndex = index.toString().padStart(padLength, "0");
+      img.decoding = "async";
       img.src = `/${frameFolder}/${prefix}${paddedIndex}${extension}`;
-      
+
       img.onload = () => {
         if (cancel) return;
-        loadedImages[i - 1] = img;
-        loaded++;
+        loadedImages[index - 1] = img;
+        loaded += 1;
         setLoadedCount(loaded);
 
-        if (loaded === frameCount) {
-          setImages([...loadedImages]);
-        } else if (loaded === Math.floor(frameCount / 4)) {
-            // Give an early state so the first chunk renders immediately!
-            setImages([...loadedImages]);
+        if (loaded <= 24 || loaded % 12 === 0 || loaded === frameCount) {
+          imagesRef.current = [...loadedImages];
+          setImagesVersion((version) => version + 1);
         }
       };
     };
 
-    // Load sequentially so first frames show up instantly
-    for (let i = 1; i <= frameCount; i++) {
-        // use requestIdleCallback or setTimeout to yield main thread if needed
-        setTimeout(() => loadFrame(i), i * 1.5);
+    for (let index = 1; index <= frameCount; index += 1) {
+      timeoutIds.push(window.setTimeout(() => loadFrame(index), index * 1.5));
     }
 
     return () => {
       cancel = true;
+      timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
     };
   }, [frameFolder, frameCount, padLength, prefix, extension]);
 
-  // Draw on Canvas
   useEffect(() => {
-    if (!canvasRef.current || images.length === 0) return;
+    if (!canvasRef.current || imagesRef.current.length === 0) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d", { alpha: false }); // alpha: false for performance boost
+    const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
 
-    // Handle High-DPI screens (Retina)
-    const dpr = window.devicePixelRatio || 1;
-    // Use requestAnimationFrame to ensure we read layout correctly
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const updateCanvasSize = () => {
       const rect = canvas.getBoundingClientRect();
-      if (canvas.width !== Math.floor(rect.width * dpr)) {
-        canvas.width = Math.floor(rect.width * dpr);
-        canvas.height = Math.floor(rect.height * dpr);
+      const nextWidth = Math.floor(rect.width * dpr);
+      const nextHeight = Math.floor(rect.height * dpr);
+
+      if (canvas.width !== nextWidth || canvas.height !== nextHeight) {
+        canvas.width = nextWidth;
+        canvas.height = nextHeight;
       }
     };
+
     updateCanvasSize();
 
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
 
-    // Calculate current frame index based on scrollProgress
-    const frameIndex = Math.min(
-      frameCount - 1,
-      Math.max(0, Math.floor(scrollProgress * frameCount))
-    );
+    const frameIndex = Math.min(frameCount - 1, Math.max(0, Math.floor(scrollProgress * frameCount)));
+    let imageToDraw = imagesRef.current[frameIndex];
 
-    const imageToDraw = images[frameIndex];
+    if (!imageToDraw) {
+      for (let offset = 1; offset < frameCount; offset += 1) {
+        imageToDraw =
+          imagesRef.current[frameIndex - offset] ?? imagesRef.current[frameIndex + offset] ?? null;
+
+        if (imageToDraw) {
+          break;
+        }
+      }
+    }
 
     if (imageToDraw && imageToDraw.complete) {
       const render = () => {
-        // High performance cover logic
         const scale = Math.max(canvas.width / imageToDraw.width, canvas.height / imageToDraw.height);
-        const x = (canvas.width / 2) - (imageToDraw.width / 2) * scale;
-        const y = (canvas.height / 2) - (imageToDraw.height / 2) * scale;
-        
+        const x = canvas.width / 2 - (imageToDraw.width / 2) * scale;
+        const y = canvas.height / 2 - (imageToDraw.height / 2) * scale;
+
         ctx.fillStyle = "#000000";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -112,13 +119,12 @@ export function useCanvasSequence({
         );
       };
 
-      requestAnimationFrame(render);
+      window.requestAnimationFrame(render);
     }
-    
-    // Listen to resize to keep it sharp
+
     window.addEventListener("resize", updateCanvasSize);
     return () => window.removeEventListener("resize", updateCanvasSize);
-  }, [scrollProgress, images, frameCount]);
+  }, [scrollProgress, imagesVersion, frameCount]);
 
   return { canvasRef, loadedCount, totalFrames: frameCount };
 }
