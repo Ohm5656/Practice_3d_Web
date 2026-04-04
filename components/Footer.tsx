@@ -14,10 +14,10 @@ export function Footer() {
             </div>
 
             <div>
-              <p className="eyebrow mb-4">Explore</p>
+              <p className="eyebrow mb-4">Menu</p>
               <div className="space-y-3 text-sm text-white/72">
                 <a href="#overview" className="block transition-colors hover:text-white">Overview</a>
-                <a href="#craftsmanship" className="block transition-colors hover:text-white">Craftsmanship</a>
+                <a href="#craftsmanship" className="block transition-colors hover:text-white">Craft</a>
                 <a href="#materials" className="block transition-colors hover:text-white">Materials</a>
                 <a href="#reserve" className="block transition-colors hover:text-white">Reserve</a>
               </div>
@@ -32,8 +32,8 @@ export function Footer() {
                 >
                   concierge@aerochron.com
                 </a>
-                <a href="#reserve" className="block transition-colors hover:text-white">Private Allocation</a>
-                <a href="#overview" className="block transition-colors hover:text-white">Back to Hero</a>
+                <a href="#reserve" className="block transition-colors hover:text-white">Private Viewing</a>
+                <a href="#overview" className="block transition-colors hover:text-white">Back to Top</a>
               </div>
             </div>
           </div>

@@ -6,26 +6,27 @@ import { HeroSequence } from "@/components/HeroSequence";
 import { Navbar } from "@/components/Navbar";
 import { ProductSequence } from "@/components/ProductSequence";
 import { SequenceSection } from "@/components/SequenceSection";
+import { StoreSection } from "@/components/StoreSection";
 
 const materialPillars = [
   {
     title: "Grade 5 Titanium",
-    copy: "Light. Strong. Understated.",
+    copy: "Light. Strong. Built for any condition.",
   },
   {
     title: "Sapphire Crystal",
-    copy: "Clarity with lasting protection.",
+    copy: "Clarity combined with absolute protection.",
   },
   {
     title: "Caliber 04",
-    copy: "Balanced, precise, composed.",
+    copy: "A complex mechanism delivering unmatched precision.",
   },
 ];
 
 const reserveNotes = [
-  { label: "Release", value: "Private" },
+  { label: "Release", value: "By invitation only" },
   { label: "Viewing", value: "By appointment" },
-  { label: "Finish", value: "Hand-inspected" },
+  { label: "Inspection", value: "Hand-inspected" },
 ];
 
 export default function Home() {
@@ -40,61 +41,41 @@ export default function Home() {
       };
 
   return (
-    <main className="relative min-h-screen w-full bg-[var(--color-background)]">
-      <div className="ambient-orb left-[-12rem] top-[12rem] h-[26rem] w-[26rem] bg-[rgba(197,154,92,0.18)]" />
-      <div className="ambient-orb right-[-10rem] top-[34rem] h-[24rem] w-[24rem] bg-[rgba(137,147,170,0.18)]" />
-      <div className="ambient-orb bottom-[12rem] left-1/2 h-[22rem] w-[22rem] -translate-x-1/2 bg-[rgba(197,154,92,0.12)]" />
+    <main className="relative min-h-screen w-full bg-[#000000] selection:bg-white selection:text-black">
 
       <Navbar />
 
-      <SequenceSection
-        id="overview"
-        height="500vh"
-        label="AeroChron 01 / Launch Edition"
-        hint="Scroll to reveal the movement"
-      >
+      <SequenceSection id="overview" height="500vh">
         {(progress) => <HeroSequence progress={progress} />}
       </SequenceSection>
 
       <section className="relative z-20 px-4 pb-20 pt-4 md:px-8">
         <motion.div {...revealProps} className="section-frame">
-          <div className="glass-panel overflow-hidden rounded-[32px] px-6 py-8 md:px-10 md:py-10">
-            <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
-              <div>
-                <p className="eyebrow mb-4">Design Direction</p>
-                <h2 className="headline-display max-w-3xl text-5xl text-white md:text-7xl">
-                  Built to be watched.
-                </h2>
-              </div>
+          <div className="py-24 md:py-32 text-center text-white">
+            <h2 className="text-4xl md:text-7xl font-semibold tracking-tight mx-auto max-w-4xl">
+              Timeless Design<br />
+              <span className="text-white/60">Built to be remembered</span>
+            </h2>
 
+            <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 justify-center mx-auto max-w-3xl">
               <div>
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                  <div>
-                    <p className="eyebrow text-[0.58rem]">Case</p>
-                    <p className="mt-2 text-sm text-white/78">Titanium</p>
-                  </div>
-                  <div>
-                    <p className="eyebrow text-[0.58rem]">Crystal</p>
-                    <p className="mt-2 text-sm text-white/78">Sapphire</p>
-                  </div>
-                  <div>
-                    <p className="eyebrow text-[0.58rem]">Edition</p>
-                    <p className="mt-2 text-sm text-white/78">Launch</p>
-                  </div>
-                </div>
+                <p className="text-white/60 text-sm tracking-wide">Case</p>
+                <p className="mt-2 text-xl font-medium">Titanium Grade 5</p>
+              </div>
+              <div>
+                <p className="text-white/60 text-sm tracking-wide">Crystal</p>
+                <p className="mt-2 text-xl font-medium">Sapphire Crystal</p>
+              </div>
+              <div>
+                <p className="text-white/60 text-sm tracking-wide">Collection</p>
+                <p className="mt-2 text-xl font-medium">Launch Edition</p>
               </div>
             </div>
           </div>
         </motion.div>
       </section>
 
-      <SequenceSection
-        id="craftsmanship"
-        height="500vh"
-        label="Movement / Hand-finished architecture"
-        hint="Continue into the material study"
-        lazyMount
-      >
+      <SequenceSection id="craftsmanship" height="500vh" lazyMount>
         {(progress) => <ProductSequence progress={progress} />}
       </SequenceSection>
 
@@ -103,32 +84,28 @@ export default function Home() {
         {...revealProps}
         className="relative z-20 scroll-mt-32 px-4 py-20 md:px-8 md:py-28"
       >
-        <div className="section-frame">
-          <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="eyebrow mb-4">Material Study</p>
-              <h2 className="headline-display max-w-3xl text-5xl text-white md:text-7xl">
-                Less copy. More presence.
-              </h2>
-            </div>
-            <p className="copy-muted max-w-md text-sm">Three details. One impression.</p>
+        <div className="section-frame text-white text-center">
+          <div className="mb-20">
+            <h2 className="text-4xl md:text-7xl font-semibold tracking-tight mx-auto max-w-4xl">
+              Premium Strength<br />
+              <span className="text-white/60">Superior Material Innovation</span>
+            </h2>
           </div>
 
           <div className="grid gap-4 md:grid-cols-3">
             {materialPillars.map((pillar, index) => (
               <motion.article
                 key={pillar.title}
-                initial={shouldReduceMotion ? false : { opacity: 0, y: 30 }}
-                whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+                initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95 }}
+                whileInView={shouldReduceMotion ? undefined : { opacity: 1, scale: 1 }}
                 viewport={{ once: true, amount: 0.22 }}
                 transition={{ duration: 0.8, delay: shouldReduceMotion ? 0 : index * 0.08 }}
-                className="glass-panel rounded-[28px] p-6 md:p-7"
+                className="p-8 border border-white/10 rounded-[28px] text-center"
               >
-                <p className="eyebrow mb-4 text-[0.62rem]">0{index + 1}</p>
-                <h3 className="headline-display text-3xl text-white md:text-[2.35rem]">
+                <h3 className="text-3xl font-semibold mb-4">
                   {pillar.title}
                 </h3>
-                <p className="copy-muted mt-4 text-sm">{pillar.copy}</p>
+                <p className="text-white/60 text-lg mx-auto max-w-sm">{pillar.copy}</p>
               </motion.article>
             ))}
           </div>
@@ -141,41 +118,36 @@ export default function Home() {
         className="relative z-20 scroll-mt-32 px-4 pb-16 pt-6 md:px-8 md:pb-20"
       >
         <div className="section-frame">
-          <div className="glass-panel overflow-hidden rounded-[34px] px-6 py-10 md:px-10 md:py-12">
-            <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-              <div>
-                <p className="eyebrow mb-4">Private Reserve</p>
-                <h2 className="headline-display max-w-3xl text-5xl text-white md:text-7xl">
-                  See it. Want it. Reserve it.
-                </h2>
-              </div>
+          <div className="py-24 md:py-32 text-center text-white">
+            <h2 className="text-5xl md:text-8xl font-semibold tracking-tighter mx-auto max-w-5xl mb-16">
+              Own the perfect<br className="hidden md:block"/>timepiece
+            </h2>
 
-              <div className="grid gap-4 sm:grid-cols-3">
-                {reserveNotes.map((note) => (
-                  <div key={note.label} className="rounded-[24px] border border-white/10 bg-white/[0.03] p-4">
-                    <p className="eyebrow text-[0.58rem]">{note.label}</p>
-                    <p className="mt-3 text-sm text-white/78">{note.value}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="flex flex-col md:flex-row gap-8 justify-center items-center mb-16">
+              {reserveNotes.map((note) => (
+                <div key={note.label} className="text-center px-4">
+                  <p className="text-white/50 text-sm tracking-wide mb-2">{note.label}</p>
+                  <p className="text-xl font-medium">{note.value}</p>
+                </div>
+              ))}
             </div>
 
-            <div className="fine-divider my-8" />
-
-            <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="flex flex-col gap-4 sm:flex-row justify-center">
               <a
-                href="mailto:concierge@aerochron.com?subject=Private%20Allocation%20Inquiry"
-                className="premium-button"
+                href="#reserve"
+                className="premium-button bg-white text-black font-medium"
               >
                 Request Allocation
               </a>
-              <a href="#craftsmanship" className="premium-button premium-button--ghost">
+              <a href="#craftsmanship" className="premium-button text-white bg-white/10 hover:bg-white/20 hover:opacity-100 transition-colors">
                 Review the Movement
               </a>
             </div>
           </div>
         </div>
       </motion.section>
+
+      <StoreSection />
 
       <Footer />
     </main>

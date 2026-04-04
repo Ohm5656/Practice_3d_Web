@@ -28,13 +28,10 @@ body {
   min-height: 100vh;
   color: var(--color-foreground);
   font-family: var(--font-sans);
-  background:
-    radial-gradient(circle at top, rgba(197, 154, 92, 0.16), transparent 32%),
-    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.06), transparent 24%),
-    radial-gradient(circle at 85% 10%, rgba(122, 131, 148, 0.14), transparent 20%),
-    linear-gradient(180deg, #050506 0%, #09090b 48%, #050506 100%);
-  letter-spacing: 0.01em;
+  background: #000000;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   scrollbar-gutter: stable;
 }
 
@@ -69,13 +66,14 @@ button {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(197, 154, 92, 0.7) rgba(255, 255, 255, 0.05);
+  scrollbar-color: #333 #000000;
 }
 
 .headline-display {
-  font-family: var(--font-serif);
-  letter-spacing: -0.03em;
-  line-height: 0.92;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
 }
 
 .section-frame {
@@ -99,49 +97,40 @@ button {
 .fine-divider {
   height: 1px;
   width: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .glass-panel {
-  border: 1px solid var(--color-border);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03)),
-    rgba(11, 11, 14, 0.72);
-  box-shadow:
-    0 24px 80px rgba(0, 0, 0, 0.38),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(22px);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .premium-button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.65rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: linear-gradient(135deg, rgba(197, 154, 92, 0.24), rgba(255, 255, 255, 0.08));
-  padding: 0.9rem 1.4rem;
-  color: var(--color-foreground);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  transition:
-    transform 220ms ease,
-    border-color 220ms ease,
-    background-color 220ms ease,
-    box-shadow 220ms ease;
+  background: #ffffff;
+  padding: 0.75rem 1.6rem;
+  color: #000000;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  transition: opacity 300ms ease;
 }
 
 .premium-button:hover {
-  transform: translateY(-1px);
-  border-color: rgba(197, 154, 92, 0.68);
-  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.24);
+  opacity: 0.8;
 }
 
 .premium-button--ghost {
-  background: rgba(255, 255, 255, 0.03);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
 }
 
 .ambient-orb {
