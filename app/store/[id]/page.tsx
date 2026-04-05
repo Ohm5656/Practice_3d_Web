@@ -51,10 +51,10 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   return (
     <div className="min-h-screen flex flex-col bg-[#000] text-white">
       {/* Store Navbar */}
-      <header className="sticky top-0 z-50 flex h-[52px] items-center justify-between bg-[#1d1d1f]/95 backdrop-blur-md px-4 md:px-8 border-b border-white/10">
+      <header className="sticky top-0 z-50 flex h-[60px] items-center justify-between bg-[#1d1d1f]/95 backdrop-blur-md px-6 md:px-8 border-b border-white/10">
         <Link href="/" className="text-xl font-semibold tracking-wide">AeroChron</Link>
         <p className="text-sm font-medium">{data.name}</p>
-        <button className="bg-[#0071e3] text-white text-xs px-3 py-1 rounded-full opacity-0 pointer-events-none">Placeholder</button>
+        <button className="bg-[#0071e3] text-white text-xs px-4 py-1.5 rounded-full opacity-0 pointer-events-none">Placeholder</button>
       </header>
 
       <main className="flex-1 max-w-[1200px] mx-auto px-6 py-12 md:py-24 grid md:grid-cols-2 gap-16 items-center">
