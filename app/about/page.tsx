@@ -18,12 +18,12 @@ export default function AboutPage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center mb-24">
-          <div className="relative aspect-square rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+          <div className="relative aspect-square rounded-3xl overflow-hidden shadow-2xl flex items-center justify-center p-8 bg-[#111111]/50 border border-white/5">
             <Image
-              src="/hero-cover.png"
-              alt="Craftsmanship"
+              src="/logo.png"
+              alt="AeroChron Logo"
               fill
-              className="object-cover hover:scale-105 transition-transform duration-700"
+              className="object-contain hover:scale-105 transition-transform duration-700 p-12"
             />
           </div>
           <div>

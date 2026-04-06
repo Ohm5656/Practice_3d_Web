@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   title: "AeroChron | Time, Engineered.",
   description: "A modern luxury watch experience shaped by engineering, balance, and refinement.",
   keywords: ["luxury watch", "3D product", "horology", "premium microsite"],
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
