@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
 import { ProductSequence } from "@/components/ProductSequence";
@@ -70,9 +71,18 @@ export default function Home() {
           <h1 className="text-5xl md:text-8xl font-semibold tracking-tighter mb-6 drop-shadow-2xl">
             Precision Redefined
           </h1>
-          <p className="text-lg md:text-2xl text-white/80 font-light tracking-wide max-w-2xl mx-auto drop-shadow-lg">
+          <p className="text-lg md:text-2xl text-white/80 font-light tracking-wide max-w-2xl mx-auto drop-shadow-lg mb-10">
             The new standard of luxury timepieces.
           </p>
+
+          <div className="flex justify-center gap-4 sm:gap-6 flex-wrap mt-2">
+            <Link href="/store" className="apple-btn-solid">
+              Learn More
+            </Link>
+            <Link href="/about" className="apple-btn-outline">
+              About
+            </Link>
+          </div>
         </motion.div>
       </section>
 

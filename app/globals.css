@@ -28,7 +28,7 @@ body {
   min-height: 100vh;
   color: var(--color-foreground);
   font-family: var(--font-sans);
-  background: #000000;
+  background: #0d0d0f; /* Premium dark tone, not purely block */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -131,6 +131,45 @@ button {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.4);
   color: #ffffff;
+}
+
+.apple-btn-solid {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #d4af37 0%, #aa8c2c 100%); /* Gold accent */
+  color: #111;
+  border: none;
+  border-radius: 99px;
+  padding: 0.75rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.apple-btn-solid:hover {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+.apple-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #f5f5f7; /* Silver-ish white */
+  border: 1px solid rgba(192, 192, 192, 0.5); /* Silver outline */
+  border-radius: 99px;
+  padding: 0.75rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.apple-btn-outline:hover {
+  background: rgba(192, 192, 192, 0.05);
+  border-color: #f5f5f7;
 }
 
 .ambient-orb {
