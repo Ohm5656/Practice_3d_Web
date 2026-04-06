@@ -27,8 +27,9 @@ export default function AboutPage() {
             />
           </div>
           <div>
-            <h2 className="text-3xl md:text-5xl font-medium mb-6 text-white">Unrelenting Precision</h2>
-            <p className="text-white/60 text-lg mb-6 leading-relaxed">
+            <h2 className="text-3xl md:text-5xl font-medium mb-6 text-white whitespace-nowrap">
+              Unrelenting Precision
+            </h2>            <p className="text-white/60 text-lg mb-6 leading-relaxed">
               Every curve, every gear, every choice of material is deliberate. From the grade 5 titanium case to the scratch-resistant sapphire crystal, our pieces are constructed to endure the harshest elements while maintaining an elegant profile.
             </p>
             <p className="text-white/60 text-lg leading-relaxed">
