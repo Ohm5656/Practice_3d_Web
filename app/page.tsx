@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import { Footer } from "@/components/Footer";
-import { HeroSequence } from "@/components/HeroSequence";
 import { Navbar } from "@/components/Navbar";
 import { ProductSequence } from "@/components/ProductSequence";
 import { SequenceSection } from "@/components/SequenceSection";
@@ -45,9 +45,36 @@ export default function Home() {
 
       <Navbar />
 
-      <SequenceSection id="overview" height="500vh">
-        {(progress) => <HeroSequence progress={progress} />}
-      </SequenceSection>
+      <section id="overview" className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/hero-cover.png"
+            alt="Luxury Timepiece"
+            fill
+            className="object-cover"
+            priority
+            quality={100}
+          />
+          {/* Overlay gradient for better text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-[#000000]" />
+        </div>
+
+        {/* Content */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+          className="relative z-10 text-center px-4 md:px-8 mt-24 text-white"
+        >
+          <h1 className="text-5xl md:text-8xl font-semibold tracking-tighter mb-6 drop-shadow-2xl">
+            Precision Redefined
+          </h1>
+          <p className="text-lg md:text-2xl text-white/80 font-light tracking-wide max-w-2xl mx-auto drop-shadow-lg">
+            The new standard of luxury timepieces.
+          </p>
+        </motion.div>
+      </section>
 
       <section className="relative z-20 px-4 pb-20 pt-4 md:px-8">
         <motion.div {...revealProps} className="section-frame">
