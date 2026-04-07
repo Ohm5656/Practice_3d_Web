@@ -41,14 +41,14 @@ const products = [
     name: "AeroChron Obsidian",
     description: "Forged in absolute perfection. Dark and mysterious.",
     price: 4100,
-    image: "/images/stealth.png",
+    image: "/images/obsidian.png",
   },
   {
     id: "titanium",
     name: "AeroChron Titanium",
     description: "Ultra-lightweight strength. Crafted for the skies.",
     price: 4800,
-    image: "/images/classic.png",
+    image: "/images/titanium.png",
   },
   {
     id: "chronograph",
@@ -152,7 +152,7 @@ export function StoreSection({ limit, showMoreButton = false }: StoreSectionProp
             transition={{ duration: 0.6, delay: index * 0.05 }}
             className="bg-[#111] rounded-[32px] overflow-hidden flex flex-col items-center text-center p-8 group transition-colors hover:bg-[#1a1a1a]"
           >
-            <div className="relative w-full aspect-[4/3] mb-6 mix-blend-screen">
+            <div className="relative w-full aspect-square mb-6 mix-blend-screen p-4">
               <Image
                 ref={(el) => { imageRefs.current[product.id] = el; }}
                 src={product.image}

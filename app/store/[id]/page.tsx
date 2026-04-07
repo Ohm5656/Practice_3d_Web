@@ -33,6 +33,62 @@ const productDatabase: Record<string, any> = {
     image: "/images/cobalt.png",
     specs: ["Deep Blue Dial", "Brushed Steel", "300m Water Resist"],
   },
+  obsidian: {
+    name: "AeroChron Obsidian",
+    price: "$15,999",
+    tagline: "Forged in absolute perfection.",
+    image: "/images/obsidian.png",
+    specs: ["Blackened Case", "Dark Dial", "Anti-Reflective Crystal"],
+  },
+  titanium: {
+    name: "AeroChron Titanium",
+    price: "$17,999",
+    tagline: "Crafted for the skies.",
+    image: "/images/titanium.png",
+    specs: ["Grade 5 Titanium", "Featherlight Build", "Scratch Resistant"],
+  },
+  chronograph: {
+    name: "AeroChron Chronograph",
+    price: "$19,999",
+    tagline: "Precision timing, perfected.",
+    image: "/images/chronograph.png",
+    specs: ["Triple Subdial", "Tachymeter Bezel", "Column Wheel Movement"],
+  },
+  emerald: {
+    name: "AeroChron Emerald",
+    price: "$16,999",
+    tagline: "Striking green. Pure luxury.",
+    image: "/images/emerald.png",
+    specs: ["Forest Green Dial", "Yellow Gold Case", "Exhibition Caseback"],
+  },
+  lunar: {
+    name: "AeroChron Lunar",
+    price: "$21,999",
+    tagline: "Time meets the cosmos.",
+    image: "/images/lunar.png",
+    specs: ["Moon Phase Complication", "Star-Map Dial", "White Gold Case"],
+  },
+  skeleton: {
+    name: "AeroChron Skeleton",
+    price: "$24,999",
+    tagline: "A raw view of time.",
+    image: "/images/skeleton.png",
+    specs: ["Open-Worked Movement", "Visible Escapement", "Gold Accents"],
+  },
+  sapphire: {
+    name: "AeroChron Sapphire",
+    price: "$17,499",
+    tagline: "Inspired by deep oceans.",
+    image: "/images/sapphire.png",
+    specs: ["Electric Blue Dial", "Ceramic Bezel", "300m Water Resistant"],
+  },
+  diamond: {
+    name: "AeroChron Diamond",
+    price: "$35,000",
+    tagline: "Pure brilliance. Unrivaled.",
+    image: "/images/diamond.png",
+    specs: ["VVS Diamond Set", "Platinum Case", "Mother of Pearl Dial"],
+  },
 };
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
