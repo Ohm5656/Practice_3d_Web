@@ -64,12 +64,12 @@ export function ProductSequence({ progress }: { progress: number }) {
           </motion.div>
 
           <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 28 }}
-            animate={{ opacity: showBeat3 ? 1 : 0, y: showBeat3 ? 0 : 18 }}
+            initial={shouldReduceMotion ? false : { opacity: 0, x: -32 }}
+            animate={{ opacity: showBeat3 ? 1 : 0, x: showBeat3 ? 0 : -18 }}
             transition={transition}
-            className="absolute bottom-24 left-1/2 w-full max-w-xl -translate-x-1/2 text-center"
+            className="absolute bottom-24 left-0 max-w-sm text-left"
           >
-            <h2 className="text-4xl md:text-6xl font-semibold tracking-tight text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-white mb-4">
               Engineered for Endurance
             </h2>
             <p className="text-white/70 text-lg">Shock and magnetic resistant.</p>
