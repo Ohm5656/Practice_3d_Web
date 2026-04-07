@@ -152,16 +152,24 @@ export function StoreSection({ limit, showMoreButton = false }: StoreSectionProp
             transition={{ duration: 0.6, delay: index * 0.05 }}
             className="bg-[#111] rounded-[32px] overflow-hidden flex flex-col items-center text-center p-8 group transition-colors hover:bg-[#1a1a1a]"
           >
-            <div className="w-full aspect-square mb-6 flex items-center justify-center p-6">
-              <div className="relative w-full h-full">
+            <div className="w-full aspect-square mb-6 flex items-center justify-center p-2">
+              <div className="relative w-full h-full overflow-hidden">
                 <Image
                   ref={(el) => { imageRefs.current[product.id] = el; }}
                   src={product.image}
                   alt={product.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-contain drop-shadow-2xl"
+                  className={`object-contain mix-blend-screen ${
+                    ['chronograph', 'emerald', 'lunar', 'skeleton', 'sapphire', 'diamond'].includes(product.id)
+                      ? "scale-[1.5]"
+                      : ""
+                  }`}
                 />
+                {/* Hide AI watermark in bottom-right only for new generated images */}
+                {['chronograph', 'emerald', 'lunar', 'skeleton', 'sapphire', 'diamond'].includes(product.id) && (
+                  <div className="absolute bottom-0 right-0 w-10 h-10 bg-[#111] group-hover:bg-[#1a1a1a] transition-colors rounded-tl-sm" />
+                )}
               </div>
             </div>
             <h3 className="text-2xl font-semibold text-white tracking-tight">{product.name}</h3>
