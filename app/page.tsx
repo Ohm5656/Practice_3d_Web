@@ -55,7 +55,6 @@ export default function Home() {
             fill
             className="object-cover"
             priority
-            quality={100}
           />
           {/* Overlay gradient for better text readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-[#000000]" />

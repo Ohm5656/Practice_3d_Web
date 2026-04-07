@@ -187,7 +187,7 @@ export function StoreSection({ limit, showMoreButton = false }: StoreSectionProp
         <div className="mt-16 flex justify-center">
           <Link
             href="/store"
-            className="group relative flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-br from-[#d4af37] to-[#aa8c2c] px-8 py-3 text-[#111111] font-semibold shadow-[0_4px_12px_rgba(212,175,55,0.2)] transition-transform hover:scale-105"
+            className="group relative flex items-center gap-2 overflow-hidden rounded-full border-2 border-[#d4af37] bg-transparent px-8 py-3 text-[#d4af37] font-semibold transition-all hover:bg-[#d4af37] hover:text-black hover:shadow-[0_0_20px_rgba(212,175,55,0.5)]"
           >
             More Options
             <svg
