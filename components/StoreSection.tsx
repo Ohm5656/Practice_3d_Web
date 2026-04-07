@@ -55,42 +55,42 @@ const products = [
     name: "AeroChron Chronograph",
     description: "Precision timing with multiple subdials.",
     price: 5200,
-    image: "/images/cobalt.png",
+    image: "/images/chronograph.png",
   },
   {
     id: "emerald",
     name: "AeroChron Emerald",
     description: "Striking green dial reflecting pure luxury.",
     price: 4300,
-    image: "/images/rosegold.png",
+    image: "/images/emerald.png",
   },
   {
     id: "lunar",
     name: "AeroChron Lunar",
     description: "Celestial complication with moon phase.",
     price: 5500,
-    image: "/images/classic.png",
+    image: "/images/lunar.png",
   },
   {
     id: "skeleton",
     name: "AeroChron Skeleton",
     description: "Exposed mechanics. A raw view of time.",
     price: 6000,
-    image: "/images/stealth.png",
+    image: "/images/skeleton.png",
   },
   {
     id: "sapphire",
     name: "AeroChron Sapphire",
     description: "Intense blue aesthetics inspired by deep oceans.",
     price: 4600,
-    image: "/images/cobalt.png",
+    image: "/images/sapphire.png",
   },
   {
     id: "diamond",
     name: "AeroChron Diamond",
     description: "Encrusted with premium VVS diamonds. Pure brilliance.",
     price: 8500,
-    image: "/images/classic.png",
+    image: "/images/diamond.png",
   },
 ];
 
@@ -152,15 +152,17 @@ export function StoreSection({ limit, showMoreButton = false }: StoreSectionProp
             transition={{ duration: 0.6, delay: index * 0.05 }}
             className="bg-[#111] rounded-[32px] overflow-hidden flex flex-col items-center text-center p-8 group transition-colors hover:bg-[#1a1a1a]"
           >
-            <div className="relative w-full aspect-square mb-6 mix-blend-screen p-4">
-              <Image
-                ref={(el) => { imageRefs.current[product.id] = el; }}
-                src={product.image}
-                alt={product.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 33vw"
-                className="object-contain"
-              />
+            <div className="w-full aspect-square mb-6 flex items-center justify-center p-6">
+              <div className="relative w-full h-full">
+                <Image
+                  ref={(el) => { imageRefs.current[product.id] = el; }}
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-contain drop-shadow-2xl"
+                />
+              </div>
             </div>
             <h3 className="text-2xl font-semibold text-white tracking-tight">{product.name}</h3>
             <p className="mt-3 text-white/60 text-sm flex-1">{product.description}</p>
