@@ -184,7 +184,7 @@ export default function Home() {
         </div>
       </motion.section>
 
-      <StoreSection />
+      <StoreSection limit={6} showMoreButton={true} />
 
       <Footer />
     </main>

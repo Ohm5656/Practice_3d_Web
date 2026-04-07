@@ -41,42 +41,56 @@ const products = [
     name: "AeroChron Obsidian",
     description: "Forged in absolute perfection. Dark and mysterious.",
     price: 4100,
-    image: "/images/stealth.png", // Using placeholder, reuse stealth
+    image: "/images/stealth.png",
   },
   {
     id: "titanium",
     name: "AeroChron Titanium",
     description: "Ultra-lightweight strength. Crafted for the skies.",
     price: 4800,
-    image: "/images/classic.png", // Using placeholder, reuse classic
+    image: "/images/classic.png",
   },
   {
     id: "chronograph",
     name: "AeroChron Chronograph",
     description: "Precision timing with multiple subdials.",
     price: 5200,
-    image: "/images/cobalt.png", // Using placeholder, reuse cobalt
+    image: "/images/cobalt.png",
   },
   {
     id: "emerald",
     name: "AeroChron Emerald",
     description: "Striking green dial reflecting pure luxury.",
     price: 4300,
-    image: "/images/rosegold.png", // Using placeholder, reuse rosegold
+    image: "/images/rosegold.png",
   },
   {
     id: "lunar",
     name: "AeroChron Lunar",
     description: "Celestial complication with moon phase.",
     price: 5500,
-    image: "/images/classic.png", // Using placeholder, reuse classic
+    image: "/images/classic.png",
   },
   {
     id: "skeleton",
     name: "AeroChron Skeleton",
     description: "Exposed mechanics. A raw view of time.",
     price: 6000,
-    image: "/images/stealth.png", // Using placeholder, reuse stealth
+    image: "/images/stealth.png",
+  },
+  {
+    id: "sapphire",
+    name: "AeroChron Sapphire",
+    description: "Intense blue aesthetics inspired by deep oceans.",
+    price: 4600,
+    image: "/images/cobalt.png",
+  },
+  {
+    id: "diamond",
+    name: "AeroChron Diamond",
+    description: "Encrusted with premium VVS diamonds. Pure brilliance.",
+    price: 8500,
+    image: "/images/classic.png",
   },
 ];
 
@@ -87,10 +101,17 @@ type FlyingImage = {
   startY: number;
 };
 
-export function StoreSection() {
+interface StoreSectionProps {
+  limit?: number;
+  showMoreButton?: boolean;
+}
+
+export function StoreSection({ limit, showMoreButton = false }: StoreSectionProps) {
   const { addToCart } = useCart();
   const [flyingImages, setFlyingImages] = useState<FlyingImage[]>([]);
   const imageRefs = useRef<Record<string, HTMLImageElement | null>>({});
+
+  const displayedProducts = limit ? products.slice(0, limit) : products;
 
   const handleBuy = (e: React.MouseEvent<HTMLButtonElement>, product: typeof products[0]) => {
     e.preventDefault();
@@ -102,12 +123,11 @@ export function StoreSection() {
       const newFlying = {
         id: `${product.id}-${Date.now()}`,
         src: product.image,
-        startX: rect.left + rect.width / 2 - 40, // center on origin
+        startX: rect.left + rect.width / 2 - 40,
         startY: rect.top + rect.height / 2 - 40,
       };
       setFlyingImages((prev) => [...prev, newFlying]);
       
-      // Remove animation trace after completion
       setTimeout(() => {
         setFlyingImages((prev) => prev.filter(item => item.id !== newFlying.id));
       }, 1000);
@@ -123,7 +143,7 @@ export function StoreSection() {
       </div>
 
       <div className="mx-auto max-w-[1200px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product, index) => (
+        {displayedProducts.map((product, index) => (
           <motion.div
             key={product.id}
             initial={{ opacity: 0, y: 20 }}
@@ -163,6 +183,25 @@ export function StoreSection() {
         ))}
       </div>
 
+      {showMoreButton && (
+        <div className="mt-16 flex justify-center">
+          <Link
+            href="/store"
+            className="group relative flex items-center gap-2 overflow-hidden rounded-full bg-white px-8 py-3 text-black font-semibold transition-all hover:bg-gray-200"
+          >
+            More Options
+            <svg
+              className="h-4 w-4 transition-transform group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
+      )}
+
       {typeof window !== "undefined" &&
         createPortal(
           <div className="pointer-events-none fixed inset-0 z-[9999]">
@@ -179,11 +218,11 @@ export function StoreSection() {
                   rotate: 0,
                 }}
                 animate={{
-                  x: window.innerWidth - 100, // target cart X approx (top right)
-                  y: 20, // target cart Y approx
+                  x: window.innerWidth - 100,
+                  y: 20,
                   scale: 0.1,
                   opacity: 0,
-                  rotate: 720, // spin effect
+                  rotate: 720,
                 }}
                 transition={{
                   duration: 0.8,
