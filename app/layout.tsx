@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import { LenisProvider } from "@/components/LenisProvider";
+import { CartProvider } from "@/app/context/CartContext";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 
@@ -36,7 +37,9 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full bg-[var(--color-background)] text-[var(--color-foreground)] selection:bg-[var(--color-accent)]/30 selection:text-white">
-        <LenisProvider>{children}</LenisProvider>
+        <CartProvider>
+          <LenisProvider>{children}</LenisProvider>
+        </CartProvider>
       </body>
     </html>
   );
