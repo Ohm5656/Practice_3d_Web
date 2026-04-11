@@ -17,11 +17,11 @@ export function Navbar() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="fixed inset-x-0 top-0 z-[999] flex h-[60px] items-center justify-center bg-[#000000cc] px-6 text-[14px] font-normal backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-[999] flex h-14 items-center justify-center bg-[#000000cc] px-4 text-[13px] font-normal backdrop-blur-md md:h-[60px] md:px-6 md:text-[14px]"
     >
-      <div className="mx-auto flex w-full max-w-[1020px] items-center justify-between px-2">
+      <div className="mx-auto flex w-full max-w-[1060px] items-center justify-between gap-3">
         <Link href="/" className="flex items-center text-[#f5f5f7]/80 transition-colors duration-300 hover:text-white">
-          <span className="text-lg font-semibold tracking-wide text-white">AeroChron</span>
+          <span className="text-base font-semibold tracking-wide text-white sm:text-lg">AeroChron</span>
         </Link>
         <nav className="hidden flex-1 items-center justify-center gap-10 md:flex">
           {links.map((link) => (
@@ -34,15 +34,15 @@ export function Navbar() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-4 relative">
+        <div className="relative flex items-center gap-2.5 sm:gap-4">
           <Link
             href="/contact"
-            className="rounded-full bg-gradient-to-br from-[#d4af37] to-[#aa8c2c] px-5 py-2 text-[13px] font-semibold text-[#111111] shadow-[0_4px_12px_rgba(212,175,55,0.2)] transition-transform hover:scale-105"
+            className="rounded-full bg-gradient-to-br from-[#d4af37] to-[#aa8c2c] px-4 py-2 text-[12px] font-semibold text-[#111111] shadow-[0_4px_12px_rgba(212,175,55,0.2)] transition-transform hover:scale-105 sm:px-5 sm:text-[13px]"
           >
             Contact Us
           </Link>
           
-          <Link href="/checkout" className="group relative flex items-center justify-center w-10 h-10 rounded-full transition-colors hover:bg-white/10" id="cart-icon">
+          <Link href="/checkout" className="group relative flex h-9 w-9 items-center justify-center rounded-full transition-colors hover:bg-white/10 md:h-10 md:w-10" id="cart-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#f5f5f7]">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />

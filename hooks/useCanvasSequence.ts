@@ -13,6 +13,11 @@ interface UseCanvasSequenceProps {
   frozenProgress?: number | null;
   maxConcurrentLoads?: number;
   initialPriorityFrames?: number;
+  fitMode?: "cover" | "contain";
+  mobileFitMode?: "cover" | "contain";
+  mobileBreakpoint?: number;
+  scaleMultiplier?: number;
+  mobileScaleMultiplier?: number;
 }
 
 export function useCanvasSequence({
@@ -25,6 +30,11 @@ export function useCanvasSequence({
   frozenProgress = null,
   maxConcurrentLoads = 6,
   initialPriorityFrames = 24,
+  fitMode = "cover",
+  mobileFitMode = fitMode,
+  mobileBreakpoint = 768,
+  scaleMultiplier = 1,
+  mobileScaleMultiplier = scaleMultiplier,
 }: UseCanvasSequenceProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
@@ -78,14 +88,29 @@ export function useCanvasSequence({
 
     lastDrawnFrameRef.current = index;
 
-    const scale = Math.max(canvas.width / image.width, canvas.height / image.height);
+    const activeFitMode =
+      window.innerWidth < mobileBreakpoint ? mobileFitMode : fitMode;
+    const activeScaleMultiplier =
+      window.innerWidth < mobileBreakpoint ? mobileScaleMultiplier : scaleMultiplier;
+    const scale =
+      (activeFitMode === "contain"
+        ? Math.min(canvas.width / image.width, canvas.height / image.height)
+        : Math.max(canvas.width / image.width, canvas.height / image.height)) * activeScaleMultiplier;
     const x = canvas.width / 2 - (image.width / 2) * scale;
     const y = canvas.height / 2 - (image.height / 2) * scale;
 
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
-  }, [findNearestLoadedFrame, frameCount]);
+  }, [
+    findNearestLoadedFrame,
+    fitMode,
+    frameCount,
+    mobileBreakpoint,
+    mobileFitMode,
+    mobileScaleMultiplier,
+    scaleMultiplier,
+  ]);
 
   const scheduleDraw = useCallback(() => {
     if (rafIdRef.current !== null) return;

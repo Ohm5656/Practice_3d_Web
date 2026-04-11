@@ -21,6 +21,7 @@ export function HeroSequence({ progress }: { progress: MotionValue<number> }) {
     scrollProgress: progress,
     extension: "_out.jpg",
     frozenProgress: shouldReduceMotion ? 0 : null,
+    mobileFitMode: "contain",
   });
 
   useEffect(() => {

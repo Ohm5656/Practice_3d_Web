@@ -46,18 +46,20 @@ export default function Home() {
 
       <Navbar />
 
-      <section id="overview" className="relative w-full h-screen overflow-hidden flex items-center justify-center">
+      <section id="overview" className="relative flex min-h-[100svh] w-full items-start overflow-hidden md:h-screen md:items-center md:justify-center">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/hero-cover.png"
             alt="Luxury Timepiece"
             fill
-            className="object-cover"
+            className="object-cover object-[62%_center] md:object-center"
             priority
           />
           {/* Overlay gradient for better text readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-[#000000]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/72 via-black/30 to-[#000000] md:from-black/60 md:via-black/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/62 via-black/18 to-transparent md:hidden" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/58 via-transparent to-transparent md:hidden" />
         </div>
 
         {/* Content */}
@@ -65,22 +67,24 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="relative z-10 text-center px-4 md:px-8 mt-24 text-white"
+          className="relative z-10 mx-auto flex w-full max-w-[1240px] px-5 pb-12 pt-[22svh] text-white sm:px-6 sm:pt-[20svh] md:block md:px-8 md:pb-0 md:pt-0 md:text-center"
         >
-          <h1 className="text-5xl md:text-8xl font-semibold tracking-tighter mb-6 drop-shadow-2xl">
-            Precision Redefined
-          </h1>
-          <p className="text-lg md:text-2xl text-white/80 font-light tracking-wide max-w-2xl mx-auto drop-shadow-lg mb-10">
-            The new standard of luxury timepieces.
-          </p>
+          <div className="max-w-[17rem] sm:max-w-[19.5rem] md:mx-auto md:max-w-4xl">
+            <h1 className="mb-4 text-[2.8rem] leading-[0.94] font-semibold tracking-tighter drop-shadow-2xl sm:text-[3.15rem] md:mb-6 md:text-8xl">
+              Precision Redefined
+            </h1>
+            <p className="max-w-[15rem] text-[1rem] leading-[1.36] text-white/76 drop-shadow-lg sm:max-w-[17rem] sm:text-[1.08rem] md:mx-auto md:mb-10 md:max-w-2xl md:text-2xl">
+              The new standard of luxury timepieces.
+            </p>
 
-          <div className="flex justify-center gap-4 sm:gap-6 flex-wrap mt-2">
-            <Link href="/store" className="apple-btn-solid">
-              Learn More
-            </Link>
-            <Link href="/about" className="apple-btn-outline">
-              About
-            </Link>
+            <div className="mt-6 flex w-full max-w-[17rem] flex-col gap-3 sm:max-w-[18.5rem] sm:flex-row sm:flex-wrap md:mx-auto md:mt-2 md:max-w-none md:justify-center md:gap-4">
+              <Link href="/store" className="apple-btn-solid w-full sm:flex-1 md:w-auto md:flex-none">
+                Learn More
+              </Link>
+              <Link href="/about" className="apple-btn-outline w-full sm:flex-1 md:w-auto md:flex-none">
+                About
+              </Link>
+            </div>
           </div>
         </motion.div>
       </section>

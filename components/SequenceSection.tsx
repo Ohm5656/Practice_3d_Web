@@ -59,7 +59,7 @@ export function SequenceSection({
       style={{ height }}
       className="relative w-full scroll-mt-32"
     >
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
+      <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] w-full items-center justify-center overflow-hidden md:top-0 md:h-screen">
         {label ? (
           <div className="pointer-events-none absolute inset-x-0 top-0 z-20 px-4 pt-28 md:px-8">
             <div className="section-frame flex items-center justify-between gap-6">
