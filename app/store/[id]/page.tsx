@@ -2,98 +2,22 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { use } from "react";
-
-const productDatabase: Record<string, any> = {
-  stealth: {
-    name: "AeroChron Stealth",
-    price: "$14,999",
-    tagline: "The darkness, redefined.",
-    image: "/images/stealth.png",
-    specs: ["Ceramic Bezel", "Grade 5 Titanium", "Matte Finish"],
-  },
-  classic: {
-    name: "AeroChron Classic",
-    price: "$12,499",
-    tagline: "Precision engineered.",
-    image: "/images/classic.png",
-    specs: ["Polished Steel", "Sapphire Crystal", "Silver Dial"],
-  },
-  rosegold: {
-    name: "AeroChron Rose Gold",
-    price: "$18,999",
-    tagline: "Uncompromising elegance.",
-    image: "/images/rosegold.png",
-    specs: ["18k Rose Gold", "Leather Strap", "Exhibition Back"],
-  },
-  cobalt: {
-    name: "AeroChron Cobalt",
-    price: "$13,499",
-    tagline: "Make waves.",
-    image: "/images/cobalt.png",
-    specs: ["Deep Blue Dial", "Brushed Steel", "300m Water Resist"],
-  },
-  obsidian: {
-    name: "AeroChron Obsidian",
-    price: "$15,999",
-    tagline: "Forged in absolute perfection.",
-    image: "/images/obsidian.png",
-    specs: ["Blackened Case", "Dark Dial", "Anti-Reflective Crystal"],
-  },
-  titanium: {
-    name: "AeroChron Titanium",
-    price: "$17,999",
-    tagline: "Crafted for the skies.",
-    image: "/images/titanium.png",
-    specs: ["Grade 5 Titanium", "Featherlight Build", "Scratch Resistant"],
-  },
-  chronograph: {
-    name: "AeroChron Chronograph",
-    price: "$19,999",
-    tagline: "Precision timing, perfected.",
-    image: "/images/chronograph.png",
-    specs: ["Triple Subdial", "Tachymeter Bezel", "Column Wheel Movement"],
-  },
-  emerald: {
-    name: "AeroChron Emerald",
-    price: "$16,999",
-    tagline: "Striking green. Pure luxury.",
-    image: "/images/emerald.png",
-    specs: ["Forest Green Dial", "Yellow Gold Case", "Exhibition Caseback"],
-  },
-  lunar: {
-    name: "AeroChron Lunar",
-    price: "$21,999",
-    tagline: "Time meets the cosmos.",
-    image: "/images/lunar.png",
-    specs: ["Moon Phase Complication", "Star-Map Dial", "White Gold Case"],
-  },
-  skeleton: {
-    name: "AeroChron Skeleton",
-    price: "$24,999",
-    tagline: "A raw view of time.",
-    image: "/images/skeleton.png",
-    specs: ["Open-Worked Movement", "Visible Escapement", "Gold Accents"],
-  },
-  sapphire: {
-    name: "AeroChron Sapphire",
-    price: "$17,499",
-    tagline: "Inspired by deep oceans.",
-    image: "/images/sapphire.png",
-    specs: ["Electric Blue Dial", "Ceramic Bezel", "300m Water Resistant"],
-  },
-  diamond: {
-    name: "AeroChron Diamond",
-    price: "$35,000",
-    tagline: "Pure brilliance. Unrivaled.",
-    image: "/images/diamond.png",
-    specs: ["VVS Diamond Set", "Platinum Case", "Mother of Pearl Dial"],
-  },
-};
+import { useRef, useState } from "react";
+import { Footer } from "@/components/Footer";
+import { FlyToCartOverlay } from "@/components/FlyToCartOverlay";
+import { Navbar } from "@/components/Navbar";
+import { useCart } from "@/app/context/CartContext";
+import { buildCartFlight, type FlyingImage } from "@/lib/cartFlight";
+import { productsById } from "@/lib/products";
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
-  const data = productDatabase[resolvedParams.id];
+  const data = productsById[resolvedParams.id];
+  const { addToCart } = useCart();
+  const [flyingImages, setFlyingImages] = useState<FlyingImage[]>([]);
+  const imageStageRef = useRef<HTMLDivElement | null>(null);
 
   if (!data) {
     return (
@@ -104,40 +28,88 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     );
   }
 
+  const handleAddToBag = () => {
+    addToCart({ id: data.id, name: data.name, price: data.price, image: data.image });
+
+    if (!imageStageRef.current) return;
+
+    const rect = imageStageRef.current.getBoundingClientRect();
+    const newFlying = buildCartFlight(data.image, rect, 102);
+    setFlyingImages((prev) => [...prev, newFlying]);
+
+    window.setTimeout(() => {
+      setFlyingImages((prev) => prev.filter((item) => item.id !== newFlying.id));
+    }, 2300);
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#000] text-white">
-      {/* Store Navbar */}
-      <header className="sticky top-0 z-50 flex h-[60px] items-center justify-between bg-[#1d1d1f]/95 backdrop-blur-md px-6 md:px-8 border-b border-white/10">
-        <Link href="/" className="text-xl font-semibold tracking-wide">AeroChron</Link>
-        <p className="text-sm font-medium">{data.name}</p>
-        <button className="bg-[#0071e3] text-white text-xs px-4 py-1.5 rounded-full opacity-0 pointer-events-none">Placeholder</button>
-      </header>
+    <div className="min-h-screen bg-[#0d0d0f] text-white">
+      <Navbar />
 
-      <main className="flex-1 max-w-[1200px] mx-auto px-6 py-12 md:py-24 grid md:grid-cols-2 gap-16 items-center">
-        <div className="relative w-full aspect-square bg-[#111] rounded-[40px] p-8 md:p-12 transition-transform duration-500 hover:scale-[1.02] mix-blend-screen">
-          <Image src={data.image} alt={data.name} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-contain p-8 md:p-12 drop-shadow-2xl" />
-        </div>
+      <main className="px-5 pb-16 pt-24 md:px-8 md:pb-20 md:pt-28">
+        <div className="mx-auto grid max-w-[1240px] items-center gap-14 md:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)] md:gap-18">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="relative"
+          >
+            <div
+              ref={imageStageRef}
+              className="relative aspect-square w-full overflow-hidden rounded-[36px] border border-white/6 bg-[#0d0d0f]"
+            >
+              <Image
+                src={data.image}
+                alt={data.name}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-contain p-6 mix-blend-screen drop-shadow-2xl md:p-10"
+                style={{ transform: `scale(${data.detailImageScale})` }}
+              />
+              {data.hideImageMark ? (
+                <div className="absolute bottom-0 right-0 h-16 w-16 rounded-tl-[20px] bg-[#0d0d0f] md:h-20 md:w-20 md:rounded-tl-[24px]" />
+              ) : null}
+            </div>
+          </motion.div>
 
-        <div>
-          <h1 className="text-5xl md:text-7xl font-semibold tracking-tighter mb-4">{data.name}</h1>
-          <p className="text-2xl text-white/50 mb-8">{data.tagline}</p>
-          <p className="text-3xl font-medium mb-12">{data.price}</p>
-          
-          <div className="space-y-4 mb-16">
-            <h3 className="text-lg font-semibold mb-4">Highlights</h3>
-            {data.specs.map((spec: string, i: number) => (
-              <div key={i} className="py-4 border-t border-white/10 text-white/70">
-                {spec}
-              </div>
-            ))}
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.06, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Link href="/store" className="eyebrow mb-5 inline-flex">
+              Back To Collection
+            </Link>
+            <h1 className="mb-4 text-5xl font-semibold tracking-tighter md:text-7xl">
+              {data.name}
+            </h1>
+            <p className="mb-7 text-xl text-white/52 md:text-2xl">{data.tagline}</p>
+            <p className="mb-12 text-3xl font-medium md:text-4xl">
+              ${data.price.toLocaleString()}
+            </p>
 
-          <button className="w-full bg-[#0071e3] text-white py-4 rounded-xl text-lg font-medium transition-opacity hover:opacity-80 flex justify-center items-center gap-2 shadow-lg shadow-blue-500/20">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shopping-bag"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            Add to Bag
-          </button>
+            <div className="mb-14 space-y-4">
+              <h3 className="mb-4 text-lg font-semibold">Highlights</h3>
+              {data.specs.map((spec, i) => (
+                <div key={i} className="border-t border-white/10 py-4 text-white/70">
+                  {spec}
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={handleAddToBag}
+              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0071e3] py-4 text-lg font-medium text-white shadow-lg shadow-blue-500/20 transition-opacity hover:opacity-80"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shopping-bag"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              Add to Bag
+            </button>
+          </motion.div>
         </div>
       </main>
+
+      <Footer />
+      <FlyToCartOverlay flyingImages={flyingImages} />
     </div>
   );
 }

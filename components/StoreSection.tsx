@@ -5,101 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
 import { useState, useRef } from "react";
-import { createPortal } from "react-dom";
-
-const products = [
-  {
-    id: "stealth",
-    name: "AeroChron Stealth",
-    description: "The ultimate iteration of mechanical darkness.",
-    price: 3500,
-    image: "/images/stealth.png",
-  },
-  {
-    id: "classic",
-    name: "AeroChron Classic",
-    description: "Polished steel precision. A timeless choice.",
-    price: 3200,
-    image: "/images/classic.png",
-  },
-  {
-    id: "rosegold",
-    name: "AeroChron Rose Gold",
-    description: "Warm elegance meets high-end horology.",
-    price: 4500,
-    image: "/images/rosegold.png",
-  },
-  {
-    id: "cobalt",
-    name: "AeroChron Cobalt",
-    description: "Deep sapphire blue dial for the adventurous.",
-    price: 3800,
-    image: "/images/cobalt.png",
-  },
-  {
-    id: "obsidian",
-    name: "AeroChron Obsidian",
-    description: "Forged in absolute perfection. Dark and mysterious.",
-    price: 4100,
-    image: "/images/obsidian.png",
-  },
-  {
-    id: "titanium",
-    name: "AeroChron Titanium",
-    description: "Ultra-lightweight strength. Crafted for the skies.",
-    price: 4800,
-    image: "/images/titanium.png",
-  },
-  {
-    id: "chronograph",
-    name: "AeroChron Chronograph",
-    description: "Precision timing with multiple subdials.",
-    price: 5200,
-    image: "/images/chronograph.png",
-  },
-  {
-    id: "emerald",
-    name: "AeroChron Emerald",
-    description: "Striking green dial reflecting pure luxury.",
-    price: 4300,
-    image: "/images/emerald.png",
-  },
-  {
-    id: "lunar",
-    name: "AeroChron Lunar",
-    description: "Celestial complication with moon phase.",
-    price: 5500,
-    image: "/images/lunar.png",
-  },
-  {
-    id: "skeleton",
-    name: "AeroChron Skeleton",
-    description: "Exposed mechanics. A raw view of time.",
-    price: 6000,
-    image: "/images/skeleton.png",
-  },
-  {
-    id: "sapphire",
-    name: "AeroChron Sapphire",
-    description: "Intense blue aesthetics inspired by deep oceans.",
-    price: 4600,
-    image: "/images/sapphire.png",
-  },
-  {
-    id: "diamond",
-    name: "AeroChron Diamond",
-    description: "Encrusted with premium VVS diamonds. Pure brilliance.",
-    price: 8500,
-    image: "/images/diamond.png",
-  },
-];
-
-type FlyingImage = {
-  id: string;
-  src: string;
-  startX: number;
-  startY: number;
-};
+import { FlyToCartOverlay } from "@/components/FlyToCartOverlay";
+import { buildCartFlight, type FlyingImage } from "@/lib/cartFlight";
+import { products, type Product } from "@/lib/products";
 
 interface StoreSectionProps {
   limit?: number;
@@ -109,33 +17,28 @@ interface StoreSectionProps {
 export function StoreSection({ limit, showMoreButton = false }: StoreSectionProps) {
   const { addToCart } = useCart();
   const [flyingImages, setFlyingImages] = useState<FlyingImage[]>([]);
-  const imageRefs = useRef<Record<string, HTMLImageElement | null>>({});
+  const imageStageRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const displayedProducts = limit ? products.slice(0, limit) : products;
 
-  const handleBuy = (e: React.MouseEvent<HTMLButtonElement>, product: typeof products[0]) => {
+  const handleBuy = (e: React.MouseEvent<HTMLButtonElement>, product: Product) => {
     e.preventDefault();
     addToCart({ id: product.id, name: product.name, price: product.price, image: product.image });
 
-    const targetEl = imageRefs.current[product.id];
+    const targetEl = imageStageRefs.current[product.id];
     if (targetEl) {
       const rect = targetEl.getBoundingClientRect();
-      const newFlying = {
-        id: `${product.id}-${Date.now()}`,
-        src: product.image,
-        startX: rect.left + rect.width / 2 - 40,
-        startY: rect.top + rect.height / 2 - 40,
-      };
+      const newFlying = buildCartFlight(product.image, rect, 92);
       setFlyingImages((prev) => [...prev, newFlying]);
       
       setTimeout(() => {
         setFlyingImages((prev) => prev.filter(item => item.id !== newFlying.id));
-      }, 1000);
+      }, 2300);
     }
   };
 
   return (
-    <section id="shop" className="relative z-20 px-4 py-20 md:px-8 bg-black">
+    <section id="shop" className="relative z-20 bg-[#0d0d0f] px-4 py-20 md:px-8">
       <div className="section-frame text-white text-center mb-16">
         <h2 className="text-4xl md:text-6xl font-semibold tracking-tight mx-auto">
           Which AeroChron is right for you?
@@ -150,25 +53,23 @@ export function StoreSection({ limit, showMoreButton = false }: StoreSectionProp
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: index * 0.05 }}
-            className="bg-[#111] rounded-[32px] overflow-hidden flex flex-col items-center text-center p-8 group transition-colors hover:bg-[#1a1a1a]"
+            className="flex flex-col items-center overflow-hidden rounded-[32px] border border-white/8 bg-[#111214] p-8 text-center group transition-colors hover:bg-[#151619]"
           >
-            <div className="w-full aspect-square mb-6 flex items-center justify-center p-2">
-              <div className="relative w-full h-full overflow-hidden">
+            <div className="mb-6 flex w-full aspect-square items-center justify-center p-2">
+              <div
+                ref={(el) => { imageStageRefs.current[product.id] = el; }}
+                className="relative h-full w-full overflow-hidden rounded-[26px] bg-[#0d0d0f]"
+              >
                 <Image
-                  ref={(el) => { imageRefs.current[product.id] = el; }}
                   src={product.image}
                   alt={product.name}
                   fill
                   sizes="(max-width: 768px) 100vw, 33vw"
-                  className={`object-contain mix-blend-screen ${
-                    ['chronograph', 'emerald', 'lunar', 'skeleton', 'sapphire', 'diamond'].includes(product.id)
-                      ? "scale-[1.5]"
-                      : ""
-                  }`}
+                  className="object-contain mix-blend-screen transition-transform duration-500"
+                  style={{ transform: `scale(${product.cardImageScale})` }}
                 />
-                {/* Hide AI watermark in bottom-right only for new generated images */}
-                {['chronograph', 'emerald', 'lunar', 'skeleton', 'sapphire', 'diamond'].includes(product.id) && (
-                  <div className="absolute bottom-0 right-0 w-10 h-10 bg-[#111] group-hover:bg-[#1a1a1a] transition-colors rounded-tl-sm" />
+                {product.hideImageMark && (
+                  <div className="absolute bottom-0 right-0 h-11 w-11 rounded-tl-[14px] bg-[#0d0d0f]" />
                 )}
               </div>
             </div>
@@ -186,7 +87,7 @@ export function StoreSection({ limit, showMoreButton = false }: StoreSectionProp
                 onClick={(e) => handleBuy(e, product)}
                 className="border border-[#0071e3] text-[#0071e3] px-5 py-2 text-sm rounded-full font-medium transition-colors hover:bg-[#0071e3] hover:text-white"
               >
-                Buy
+                Add to Bag
               </button>
             </div>
           </motion.div>
@@ -212,37 +113,7 @@ export function StoreSection({ limit, showMoreButton = false }: StoreSectionProp
         </div>
       )}
 
-      {typeof window !== "undefined" &&
-        createPortal(
-          <div className="pointer-events-none fixed inset-0 z-[9999]">
-            {flyingImages.map((img) => (
-              <motion.img
-                key={img.id}
-                src={img.src}
-                className="absolute w-20 h-20 object-contain z-[10000] drop-shadow-[0_0_15px_rgba(212,175,55,0.5)]"
-                initial={{
-                  x: img.startX,
-                  y: img.startY,
-                  scale: 1,
-                  opacity: 1,
-                  rotate: 0,
-                }}
-                animate={{
-                  x: window.innerWidth - 100,
-                  y: 20,
-                  scale: 0.1,
-                  opacity: 0,
-                  rotate: 720,
-                }}
-                transition={{
-                  duration: 0.8,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
-          </div>,
-          document.body
-        )}
+      <FlyToCartOverlay flyingImages={flyingImages} />
     </section>
   );
 }
