@@ -1,11 +1,11 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { useScroll, useSpring } from "framer-motion";
+import { useScroll, useSpring, type MotionValue } from "framer-motion";
 
 interface SequenceSectionProps {
   id: string;
-  children: (progress: number) => React.ReactNode;
+  children: (progress: MotionValue<number>) => React.ReactNode;
   height?: string;
   label?: string;
   hint?: string;
@@ -33,14 +33,6 @@ export function SequenceSection({
     damping: 30,
     restDelta: 0.001,
   });
-
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    return smoothProgress.on("change", (latest) => {
-      setProgress(latest);
-    });
-  }, [smoothProgress]);
 
   useEffect(() => {
     if (!lazyMount || !containerRef.current || isActivated) return;
@@ -77,7 +69,7 @@ export function SequenceSection({
           </div>
         ) : null}
 
-        {isActivated ? children(progress) : <div className="absolute inset-0 bg-black" />}
+        {isActivated ? children(smoothProgress) : <div className="absolute inset-0 bg-black" />}
 
         {hint ? (
           <div className="pointer-events-none absolute inset-x-0 bottom-8 z-20 px-4 md:px-8">

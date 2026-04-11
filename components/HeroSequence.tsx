@@ -1,20 +1,47 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, type MotionValue, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { useCanvasSequence } from "@/hooks/useCanvasSequence";
 
-export function HeroSequence({ progress }: { progress: number }) {
+function getHeroBeat(progress: number) {
+  if (progress < 0.35) return 1;
+  if (progress < 0.65) return 2;
+  return 3;
+}
+
+export function HeroSequence({ progress }: { progress: MotionValue<number> }) {
   const shouldReduceMotion = useReducedMotion();
+  const initialBeat = shouldReduceMotion ? 1 : getHeroBeat(progress.get());
+  const [activeBeat, setActiveBeat] = useState(initialBeat);
+  const activeBeatRef = useRef(initialBeat);
   const { canvasRef, loadedCount, totalFrames } = useCanvasSequence({
     frameFolder: "Hero",
     frameCount: 240,
-    scrollProgress: shouldReduceMotion ? 0 : progress,
+    scrollProgress: progress,
     extension: "_out.jpg",
+    frozenProgress: shouldReduceMotion ? 0 : null,
   });
 
-  const showHeadline = progress < 0.35;
-  const showDetail = progress >= 0.3 && progress < 0.65;
-  const showExploded = progress >= 0.6;
+  useEffect(() => {
+    const nextBeat = shouldReduceMotion ? 1 : getHeroBeat(progress.get());
+    activeBeatRef.current = nextBeat;
+    setActiveBeat(nextBeat);
+  }, [progress, shouldReduceMotion]);
+
+  useMotionValueEvent(progress, "change", (latest) => {
+    if (shouldReduceMotion) return;
+
+    const nextBeat = getHeroBeat(latest);
+    if (nextBeat === activeBeatRef.current) return;
+
+    activeBeatRef.current = nextBeat;
+    setActiveBeat(nextBeat);
+  });
+
+  const showHeadline = activeBeat === 1;
+  const showDetail = activeBeat === 2;
+  const showExploded = activeBeat === 3;
   const transition = shouldReduceMotion
     ? { duration: 0 }
     : { duration: 0.95, ease: [0.22, 1, 0.36, 1] as const };

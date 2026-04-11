@@ -1,21 +1,49 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, type MotionValue, useMotionValueEvent, useReducedMotion } from "framer-motion";
 import { useCanvasSequence } from "@/hooks/useCanvasSequence";
 
-export function ProductSequence({ progress }: { progress: number }) {
+function getProductBeat(progress: number) {
+  if (progress < 0.35) return 1;
+  if (progress < 0.65) return 2;
+  if (progress < 0.9) return 3;
+  return 4;
+}
+
+export function ProductSequence({ progress }: { progress: MotionValue<number> }) {
   const shouldReduceMotion = useReducedMotion();
+  const initialBeat = shouldReduceMotion ? 1 : getProductBeat(progress.get());
+  const [activeBeat, setActiveBeat] = useState(initialBeat);
+  const activeBeatRef = useRef(initialBeat);
   const { canvasRef, loadedCount, totalFrames } = useCanvasSequence({
     frameFolder: "product",
     frameCount: 240,
-    scrollProgress: shouldReduceMotion ? 0 : progress,
+    scrollProgress: progress,
     extension: "_out.jpg",
+    frozenProgress: shouldReduceMotion ? 0 : null,
   });
 
-  const showBeat1 = progress < 0.35;
-  const showBeat2 = progress >= 0.3 && progress < 0.65;
-  const showBeat3 = progress >= 0.6 && progress < 0.9;
-  const showBeat4 = progress >= 0.85;
+  useEffect(() => {
+    const nextBeat = shouldReduceMotion ? 1 : getProductBeat(progress.get());
+    activeBeatRef.current = nextBeat;
+    setActiveBeat(nextBeat);
+  }, [progress, shouldReduceMotion]);
+
+  useMotionValueEvent(progress, "change", (latest) => {
+    if (shouldReduceMotion) return;
+
+    const nextBeat = getProductBeat(latest);
+    if (nextBeat === activeBeatRef.current) return;
+
+    activeBeatRef.current = nextBeat;
+    setActiveBeat(nextBeat);
+  });
+
+  const showBeat1 = activeBeat === 1;
+  const showBeat2 = activeBeat === 2;
+  const showBeat3 = activeBeat === 3;
+  const showBeat4 = activeBeat === 4;
   const transition = shouldReduceMotion
     ? { duration: 0 }
     : { duration: 0.9, ease: [0.22, 1, 0.36, 1] as const };
