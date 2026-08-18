@@ -115,7 +115,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <SequenceSection id="craftsmanship" height="500vh" mobileHeight="390svh" lazyMount>
+      <SequenceSection id="craftsmanship" height="600vh" mobileHeight="500svh" lazyMount>
         {(progress) => <ProductSequence progress={progress} />}
       </SequenceSection>
 
@@ -155,31 +155,42 @@ export default function Home() {
       <motion.section
         id="reserve"
         {...revealProps}
-        className="relative z-20 scroll-mt-32 px-4 pb-14 pt-4 md:px-8 md:pb-20 md:pt-6"
+        className="relative z-20 scroll-mt-32 overflow-hidden px-4 pb-14 pt-4 md:px-8 md:pb-20 md:pt-6"
       >
-        <div className="section-frame">
+        <div className="pointer-events-none absolute inset-0">
+          <Image
+            src="/images/reserve-watch-collection-background.png"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center opacity-80 md:opacity-90"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/56 via-black/74 to-black/92 md:from-black/38 md:via-black/64 md:to-black/88" />
+        </div>
+
+        <div className="section-frame relative z-10">
           <div className="py-16 text-center text-white md:py-32">
             <h2 className="mx-auto mb-10 max-w-5xl text-[2.8rem] font-semibold tracking-tighter md:mb-16 md:text-8xl">
-              Own the perfect<br className="hidden md:block"/>timepiece
+              Own the perfect<br />timepiece
             </h2>
 
-            <div className="mb-10 flex flex-col items-center justify-center gap-7 md:mb-16 md:flex-row md:gap-8">
+            <div className="mx-auto mb-10 grid max-w-md divide-y divide-white/12 rounded-[1.5rem] border border-white/10 bg-black/28 px-5 py-1 md:mb-16 md:max-w-3xl md:grid-cols-3 md:divide-x md:divide-y-0 md:rounded-full md:px-4">
               {reserveNotes.map((note) => (
-                <div key={note.label} className="text-center px-4">
+                <div key={note.label} className="px-3 py-5 text-center md:px-6 md:py-4">
                   <p className="text-white/50 text-sm tracking-wide mb-2">{note.label}</p>
                   <p className="text-xl font-medium">{note.value}</p>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col gap-4 sm:flex-row justify-center">
+            <div className="mx-auto flex w-full max-w-md flex-col justify-center gap-3 sm:max-w-none sm:flex-row sm:gap-4">
               <a
                 href="#reserve"
-                className="premium-button bg-white text-black font-medium"
+                className="premium-button w-full bg-white text-black font-medium sm:w-auto"
               >
                 Request Allocation
               </a>
-              <a href="#craftsmanship" className="premium-button text-white bg-white/10 hover:bg-white/20 hover:opacity-100 transition-colors">
+              <a href="#craftsmanship" className="premium-button w-full bg-white/10 text-white transition-colors hover:bg-white/20 hover:opacity-100 sm:w-auto">
                 Review the Movement
               </a>
             </div>
