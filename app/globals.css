@@ -180,7 +180,15 @@ button {
   opacity: 0.46;
 }
 
+.sequence-section {
+  height: var(--sequence-height);
+}
+
 @media (max-width: 767px) {
+  .sequence-section {
+    height: var(--sequence-mobile-height);
+  }
+
   .premium-button {
     padding: 0.82rem 1.12rem;
     letter-spacing: 0.22em;

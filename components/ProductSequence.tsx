@@ -54,6 +54,11 @@ export function ProductSequence({ progress }: { progress: MotionValue<number> })
     <>
       <canvas ref={canvasRef} aria-hidden="true" className="h-full w-full object-cover" />
 
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-black/28 via-transparent via-45% to-black/54 md:hidden"
+      />
+
       {!isReady && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black">
           <motion.div
@@ -72,46 +77,50 @@ export function ProductSequence({ progress }: { progress: MotionValue<number> })
             initial={shouldReduceMotion ? false : { opacity: 0, x: -32 }}
             animate={{ opacity: showBeat1 ? 1 : 0, x: showBeat1 ? 0 : -18 }}
             transition={transition}
-            className="absolute left-0 top-[11%] max-w-[15rem] text-left drop-shadow-[0_10px_28px_rgba(0,0,0,0.55)] sm:max-w-[18rem] md:top-[30%] md:max-w-sm md:drop-shadow-none"
+            className="absolute inset-x-0 top-[9%] mx-auto max-w-[19rem] rounded-[1.5rem] border border-white/12 bg-black/32 px-5 py-5 text-center shadow-[0_18px_45px_rgba(0,0,0,0.28)] sm:max-w-[22rem] sm:px-6 md:left-0 md:right-auto md:top-[30%] md:mx-0 md:max-w-sm md:rounded-none md:border-0 md:bg-transparent md:p-0 md:text-left md:shadow-none"
           >
-            <h2 className="mb-3 text-[2.7rem] leading-[0.92] font-semibold tracking-tight text-white sm:text-[3.1rem] md:mb-4 md:text-5xl">
+            <p className="mb-3 text-[0.62rem] font-semibold tracking-[0.26em] text-white/56 md:hidden">01 — MATERIAL</p>
+            <h2 className="mb-3 text-[2.35rem] leading-[0.92] font-semibold tracking-tight text-white sm:text-[2.8rem] md:mb-4 md:text-5xl">
               Strong<br/>Yet Lightweight
             </h2>
-            <p className="text-base leading-[1.35] text-white/72 md:text-lg">Forged from Aerospace-grade Titanium</p>
+            <p className="mx-auto max-w-[16rem] text-[0.95rem] leading-[1.45] text-white/72 md:mx-0 md:max-w-none md:text-lg">Forged from Aerospace-grade Titanium</p>
           </motion.div>
 
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, x: 32 }}
             animate={{ opacity: showBeat2 ? 1 : 0, x: showBeat2 ? 0 : 18 }}
             transition={transition}
-            className="absolute right-0 top-[11%] max-w-[15rem] text-right drop-shadow-[0_10px_28px_rgba(0,0,0,0.55)] sm:max-w-[18rem] md:top-[40%] md:max-w-sm md:drop-shadow-none"
+            className="absolute inset-x-0 top-[9%] mx-auto max-w-[19rem] rounded-[1.5rem] border border-white/12 bg-black/32 px-5 py-5 text-center shadow-[0_18px_45px_rgba(0,0,0,0.28)] sm:max-w-[22rem] sm:px-6 md:left-auto md:right-0 md:top-[40%] md:mx-0 md:max-w-sm md:rounded-none md:border-0 md:bg-transparent md:p-0 md:text-right md:shadow-none"
           >
-            <h2 className="mb-3 text-[2.55rem] leading-[0.92] font-semibold tracking-tight text-white sm:text-[3rem] md:mb-4 md:text-5xl">
+            <p className="mb-3 text-[0.62rem] font-semibold tracking-[0.26em] text-white/56 md:hidden">02 — PROTECTION</p>
+            <h2 className="mb-3 text-[2.35rem] leading-[0.92] font-semibold tracking-tight text-white sm:text-[2.8rem] md:mb-4 md:text-5xl">
               Absolute<br/>Protection
             </h2>
-            <p className="text-base leading-[1.35] text-white/72 md:text-lg">Anti-reflective Sapphire Crystal</p>
+            <p className="mx-auto max-w-[16rem] text-[0.95rem] leading-[1.45] text-white/72 md:ml-auto md:mr-0 md:max-w-none md:text-lg">Anti-reflective Sapphire Crystal</p>
           </motion.div>
 
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, x: -32 }}
             animate={{ opacity: showBeat3 ? 1 : 0, x: showBeat3 ? 0 : -18 }}
             transition={transition}
-            className="absolute bottom-18 left-0 max-w-[15.5rem] text-left drop-shadow-[0_10px_28px_rgba(0,0,0,0.55)] sm:max-w-[18rem] md:bottom-24 md:max-w-sm md:drop-shadow-none"
+            className="absolute inset-x-0 bottom-16 mx-auto max-w-[19rem] rounded-[1.5rem] border border-white/12 bg-black/32 px-5 py-5 text-center shadow-[0_18px_45px_rgba(0,0,0,0.28)] sm:max-w-[22rem] sm:px-6 md:bottom-24 md:left-0 md:right-auto md:mx-0 md:max-w-sm md:rounded-none md:border-0 md:bg-transparent md:p-0 md:text-left md:shadow-none"
           >
-            <h2 className="mb-3 text-[2.3rem] leading-[0.94] font-semibold tracking-tight text-white sm:text-[2.8rem] md:mb-4 md:text-5xl">
+            <p className="mb-3 text-[0.62rem] font-semibold tracking-[0.26em] text-white/56 md:hidden">03 — ENDURANCE</p>
+            <h2 className="mb-3 text-[2.2rem] leading-[0.94] font-semibold tracking-tight text-white sm:text-[2.65rem] md:mb-4 md:text-5xl">
               Engineered for Endurance
             </h2>
-            <p className="text-base leading-[1.35] text-white/72 md:text-lg">Shock and magnetic resistant.</p>
+            <p className="mx-auto max-w-[16rem] text-[0.95rem] leading-[1.45] text-white/72 md:mx-0 md:max-w-none md:text-lg">Shock and magnetic resistant.</p>
           </motion.div>
 
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.96 }}
             animate={{ opacity: showBeat4 ? 1 : 0, scale: showBeat4 ? 1 : 0.98 }}
             transition={transition}
-            className="absolute inset-x-0 bottom-14 text-center drop-shadow-[0_12px_30px_rgba(0,0,0,0.5)] md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:drop-shadow-none"
+            className="absolute inset-x-0 bottom-10 text-center drop-shadow-[0_12px_30px_rgba(0,0,0,0.5)] md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:drop-shadow-none"
           >
-            <div className="mx-auto max-w-[18rem] sm:max-w-[21rem] md:max-w-3xl">
-              <h2 className="mb-6 text-[3.4rem] leading-[0.92] font-semibold tracking-tighter text-white sm:text-[4.1rem] md:mb-8 md:text-8xl">
+            <div className="mx-auto max-w-[19rem] rounded-[1.5rem] border border-white/12 bg-black/32 px-5 py-6 sm:max-w-[22rem] sm:px-6 md:max-w-3xl md:rounded-none md:border-0 md:bg-transparent md:p-0">
+              <p className="mb-3 text-[0.62rem] font-semibold tracking-[0.26em] text-white/56 md:hidden">04 — YOURS</p>
+              <h2 className="mb-6 text-[3.05rem] leading-[0.92] font-semibold tracking-tighter text-white sm:text-[3.65rem] md:mb-8 md:text-8xl">
                 Own<br/>The Standard
               </h2>
               <a href="#reserve" className="premium-button pointer-events-auto">

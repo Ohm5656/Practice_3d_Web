@@ -89,15 +89,15 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <section className="relative z-20 px-4 pb-20 pt-4 md:px-8">
+      <section className="relative z-20 px-4 pb-16 pt-4 md:px-8 md:pb-20">
         <motion.div {...revealProps} className="section-frame">
-          <div className="py-24 md:py-32 text-center text-white">
-            <h2 className="text-4xl md:text-7xl font-semibold tracking-tight mx-auto max-w-4xl">
+          <div className="py-16 text-center text-white md:py-32">
+            <h2 className="mx-auto max-w-4xl text-[2.35rem] font-semibold tracking-tight md:text-7xl">
               Timeless Design<br />
               <span className="text-white/60">Built to be remembered</span>
             </h2>
 
-            <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 justify-center mx-auto max-w-3xl">
+            <div className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-9 md:mt-20 md:grid-cols-3 md:gap-8">
               <div>
                 <p className="text-white/60 text-sm tracking-wide">Case</p>
                 <p className="mt-2 text-xl font-medium">Titanium Grade 5</p>
@@ -115,18 +115,18 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <SequenceSection id="craftsmanship" height="500vh" lazyMount>
+      <SequenceSection id="craftsmanship" height="500vh" mobileHeight="390svh" lazyMount>
         {(progress) => <ProductSequence progress={progress} />}
       </SequenceSection>
 
       <motion.section
         id="materials"
         {...revealProps}
-        className="relative z-20 scroll-mt-32 px-4 py-20 md:px-8 md:py-28"
+        className="relative z-20 scroll-mt-32 px-4 py-16 md:px-8 md:py-28"
       >
         <div className="section-frame text-white text-center">
-          <div className="mb-20">
-            <h2 className="text-4xl md:text-7xl font-semibold tracking-tight mx-auto max-w-4xl">
+          <div className="mb-12 md:mb-20">
+            <h2 className="mx-auto max-w-4xl text-[2.35rem] font-semibold tracking-tight md:text-7xl">
               Premium Strength<br />
               <span className="text-white/60">Superior Material Innovation</span>
             </h2>
@@ -155,15 +155,15 @@ export default function Home() {
       <motion.section
         id="reserve"
         {...revealProps}
-        className="relative z-20 scroll-mt-32 px-4 pb-16 pt-6 md:px-8 md:pb-20"
+        className="relative z-20 scroll-mt-32 px-4 pb-14 pt-4 md:px-8 md:pb-20 md:pt-6"
       >
         <div className="section-frame">
-          <div className="py-24 md:py-32 text-center text-white">
-            <h2 className="text-5xl md:text-8xl font-semibold tracking-tighter mx-auto max-w-5xl mb-16">
+          <div className="py-16 text-center text-white md:py-32">
+            <h2 className="mx-auto mb-10 max-w-5xl text-[2.8rem] font-semibold tracking-tighter md:mb-16 md:text-8xl">
               Own the perfect<br className="hidden md:block"/>timepiece
             </h2>
 
-            <div className="flex flex-col md:flex-row gap-8 justify-center items-center mb-16">
+            <div className="mb-10 flex flex-col items-center justify-center gap-7 md:mb-16 md:flex-row md:gap-8">
               {reserveNotes.map((note) => (
                 <div key={note.label} className="text-center px-4">
                   <p className="text-white/50 text-sm tracking-wide mb-2">{note.label}</p>

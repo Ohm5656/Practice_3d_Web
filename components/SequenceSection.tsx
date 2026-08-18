@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { type CSSProperties, useRef, useEffect, useState } from "react";
 import { useScroll, useSpring, type MotionValue } from "framer-motion";
 
 interface SequenceSectionProps {
@@ -10,6 +10,7 @@ interface SequenceSectionProps {
   label?: string;
   hint?: string;
   lazyMount?: boolean;
+  mobileHeight?: string;
 }
 
 export function SequenceSection({
@@ -19,6 +20,7 @@ export function SequenceSection({
   label,
   hint,
   lazyMount = false,
+  mobileHeight,
 }: SequenceSectionProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isActivated, setIsActivated] = useState(!lazyMount);
@@ -56,8 +58,13 @@ export function SequenceSection({
     <section
       id={id}
       ref={containerRef}
-      style={{ height }}
-      className="relative w-full scroll-mt-32"
+      style={
+        {
+          "--sequence-height": height,
+          "--sequence-mobile-height": mobileHeight ?? height,
+        } as CSSProperties
+      }
+      className="sequence-section relative w-full scroll-mt-32"
     >
       <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] w-full items-center justify-center overflow-hidden md:top-0 md:h-screen">
         {label ? (
