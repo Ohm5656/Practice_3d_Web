@@ -15,7 +15,7 @@ export function HeroSequence({ progress }: { progress: MotionValue<number> }) {
   const initialBeat = shouldReduceMotion ? 1 : getHeroBeat(progress.get());
   const [activeBeat, setActiveBeat] = useState(initialBeat);
   const activeBeatRef = useRef(initialBeat);
-  const { canvasRef, loadedCount, totalFrames } = useCanvasSequence({
+  const { canvasRef, isReady } = useCanvasSequence({
     frameFolder: "Hero",
     frameCount: 240,
     scrollProgress: progress,
@@ -46,21 +46,20 @@ export function HeroSequence({ progress }: { progress: MotionValue<number> }) {
   const transition = shouldReduceMotion
     ? { duration: 0 }
     : { duration: 0.95, ease: [0.22, 1, 0.36, 1] as const };
-  const loadingProgress = Math.min(100, Math.round((loadedCount / totalFrames) * 100));
 
   return (
     <>
       <canvas ref={canvasRef} aria-hidden="true" className="h-full w-full object-cover" />
 
-      {loadedCount < Math.min(14, totalFrames) && (
+      {!isReady && (
         <div className="absolute inset-0 z-50 flex items-center justify-center bg-black">
           <div className="text-center">
             <motion.div
               animate={{ opacity: [0.55, 1, 0.55] }}
               transition={{ repeat: Infinity, duration: 1.8 }}
-              className="text-3xl text-white md:text-5xl font-semibold tracking-tight"
+              className="text-sm font-medium uppercase tracking-[0.24em] text-white/80 md:text-base"
             >
-              {loadingProgress}%
+              Loading timepiece
             </motion.div>
           </div>
         </div>
